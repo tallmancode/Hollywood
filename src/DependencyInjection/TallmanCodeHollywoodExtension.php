@@ -3,6 +3,7 @@
 namespace TallmanCode\HollywoodBundle\DependencyInjection;
 
 use Exception;
+use SebastianBergmann\Diff\ConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -21,6 +22,29 @@ class TallmanCodeHollywoodExtension extends Extension
         new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('services.xml');
+
+        $configuration = $this->getConfiguration($configs, $container);
+
+        if (!$configuration) {
+            throw new \InvalidArgumentException('Hollywood Bundle configuration is null.');
+        }
+
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $this->setHollywoodClientConfigs($container, $config);
+
+    }
+
+    public function setHollywoodClientConfigs($container, $config)
+    {
+        $definition = $container->getDefinition('hollywood.client');
+        $definition->setArgument('$baseUrl', $config['base_url']);
+        $definition->setArgument('$options', []);
+        $definition->setArgument('$cachingClient', $config['caching_client']);
+//        if (null !== $config['api_key']) {
+//
+//            $definition->setArgument('$cacheRoot', "%kernel.cache_dir%");
+//        }
     }
 
 
