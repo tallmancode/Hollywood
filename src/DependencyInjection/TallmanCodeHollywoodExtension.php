@@ -13,13 +13,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class TallmanCodeHollywoodExtension extends Extension
 {
     /**
-    * @throws Exception
-    */
+     * @throws Exception
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new XmlFileLoader(
-        $container,
-        new FileLocator(__DIR__.'/../Resources/config')
+            $container,
+            new FileLocator(__DIR__ . '/../Resources/config')
         );
         $loader->load('services.xml');
 
@@ -41,10 +41,6 @@ class TallmanCodeHollywoodExtension extends Extension
         $definition->setArgument('$baseUrl', $config['base_url']);
         $definition->setArgument('$options', []);
         $definition->setArgument('$cachingClient', $config['caching_client']);
-//        if (null !== $config['api_key']) {
-//
-//            $definition->setArgument('$cacheRoot', "%kernel.cache_dir%");
-//        }
     }
 
 

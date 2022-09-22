@@ -5,7 +5,9 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <!--Hollywood Client Class-->
-        <service id="hollywood.client" class="TallmanCode\HollywoodBundle\Client\HollywoodClient"/>
+        <service id="hollywood.client" class="TallmanCode\HollywoodBundle\Client\HollywoodClient">
+            <argument type="service" id="parameter_bag" />
+        </service>
         <service id="TallmanCode\HollywoodBundle\Client\HollywoodClientInterface" alias="hollywood.client" />
 
         <!--Hollywood Manager Class-->
