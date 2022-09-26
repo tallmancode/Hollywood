@@ -7,7 +7,9 @@ use Symfony\Component\HttpClient\CachingHttpClient;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class AbstractHollywoodClient
 {
@@ -21,11 +23,20 @@ class AbstractHollywoodClient
 
     protected $cacheDir;
 
-    public function __construct(ParameterBagInterface $parameterBag, string $baseUrl, $options = [], $cachingClient = true)
+    private string $apiKey;
+
+    public function __construct(
+        ParameterBagInterface $parameterBag,
+        string $apiKey,
+        string $baseUrl,
+        $options = [],
+        $cachingClient = true
+    )
     {
         $this->options = $options;
         $this->baseUrl = $baseUrl;
         $this->cachingClient = $cachingClient;
+        $this->apiKey = $apiKey;
         $this->configure($options);
         $this->cacheDir = $parameterBag->get('kernel.cache_dir');
         $this->httpClient = $this->setupClient();
@@ -37,7 +48,7 @@ class AbstractHollywoodClient
 
         $resolver->setDefaults([
             'base_uri' => $this->baseUrl,
-            'api_key' => null,
+            'api_key' => $this->apiKey,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -55,6 +66,7 @@ class AbstractHollywoodClient
 
     public function setupClient(): HttpClientInterface
     {
+
         if ($this->cachingClient) {
             $store = new Store($this->cacheDir);
             return new CachingHttpClient(HttpClient::create(), $store, [
@@ -77,6 +89,20 @@ class AbstractHollywoodClient
                 'region' => 'US',
             ],
         ]);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     */
+    public function send(string $path, string $method, array $parameters = [], $headers = null, $body = null): ResponseInterface
+    {
+        $client = $this->httpClient;
+        if ($headers) {
+            $defaultOptions = array_merge($this->options, $headers);
+            $client = $this->httpClient->withOptions($defaultOptions);
+        }
+
+        return $client->request($method, $path);
     }
 
 }

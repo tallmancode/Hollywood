@@ -38,6 +38,7 @@ class TallmanCodeHollywoodExtension extends Extension
     public function setHollywoodClientConfigs($container, $config)
     {
         $definition = $container->getDefinition('hollywood.client');
+        $definition->setArgument('$apiKey', $config['api_key']);
         $definition->setArgument('$baseUrl', $config['base_url']);
         $definition->setArgument('$options', []);
         $definition->setArgument('$cachingClient', $config['caching_client']);

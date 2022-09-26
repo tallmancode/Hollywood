@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('base_url')->cannotBeEmpty()->defaultValue('https://api.themoviedb.org/3')->end()
+                ->scalarNode('base_url')->cannotBeEmpty()->defaultValue('https://api.themoviedb.org/3/')->end()
                 ->booleanNode('caching_client')->defaultTrue()->end()
             ->end();
 

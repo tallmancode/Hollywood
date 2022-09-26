@@ -22,7 +22,9 @@
         "symfony/deprecation-contracts": "^2.2 | ^3.0",
         "symfony/http-kernel": "^5.4.7 | ^6.0",
         "symfony/http-client": "^5.4.7 | ^6.0",
-        "symfony/options-resolver": "^5.4.7 | ^6.0"
+        "symfony/options-resolver": "^5.4.7 | ^6.0",
+        "symfony/serializer": "^6.0",
+        "symfony/property-access": "^6.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^6.0",
