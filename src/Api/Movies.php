@@ -4,6 +4,11 @@ namespace TallmanCode\HollywoodBundle\Api;
 
 class Movies extends AbstractHollywoodApi
 {
+    public function getNowPlaying()
+    {
+        return $this->get('movie/now_playing');
+    }
+
     public function getLatest()
     {
         return $this->get('movie/latest');
