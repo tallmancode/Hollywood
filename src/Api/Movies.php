@@ -9,6 +9,11 @@ class Movies extends AbstractHollywoodApi
         return $this->get('movie/now_playing');
     }
 
+    public function getPopular()
+    {
+        return $this->get('movie/popular');
+    }
+
     public function getLatest()
     {
         return $this->get('movie/latest');
