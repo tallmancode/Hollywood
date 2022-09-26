@@ -1,0 +1,3 @@
+hollywood:
+    api_key: '12345'
+    caching_client: false
