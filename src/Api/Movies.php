@@ -23,4 +23,9 @@ class Movies extends AbstractHollywoodApi
     {
         return $this->get('movie/top_rated');
     }
+
+    public function getUpcoming()
+    {
+        return $this->get('movie/upcoming');
+    }
 }
