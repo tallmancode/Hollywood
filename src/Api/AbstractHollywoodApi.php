@@ -2,12 +2,22 @@
 
 namespace TallmanCode\HollywoodBundle\Api;
 
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use TallmanCode\HollywoodBundle\Manager\HollywoodManagerInterface;
+use TallmanCode\HollywoodBundle\Model\Movie;
+use TallmanCode\HollywoodBundle\Normalizer\HollywoodDenormalizer;
+use TallmanCode\HollywoodBundle\Normalizer\HollywoodNormalizer;
 use TallmanCode\HollywoodBundle\Response\PaginatedResponse;
 
 class AbstractHollywoodApi
@@ -24,9 +34,11 @@ class AbstractHollywoodApi
 
     protected function get(string $path, ?callable $modelCallBack = null)
     {
-        $response =  $this->sendRequest($path, 'GET', $modelCallBack);
-        $normalizers = [new ObjectNormalizer(), new ArrayDenormalizer()];
-        $serializer = new Serializer($normalizers, [new JsonEncoder()]);
+        $response = $this->sendRequest($path, 'GET', $modelCallBack);
+        $encoder = [new JsonEncoder()];
+        $extractor = new PropertyInfoExtractor([], [new PhpDocExtractor(), new ReflectionExtractor()]);
+        $normalizer = [new ArrayDenormalizer(), new DateTimeNormalizer() , new ObjectNormalizer(null, new CamelCaseToSnakeCaseNameConverter(), null, $extractor)];
+        $serializer = new Serializer($normalizer, $encoder);
         $responseArray = $response->toArray();
 
         if (isset($responseArray['page'])) {
@@ -36,8 +48,18 @@ class AbstractHollywoodApi
         return $this->modelResponse($serializer, $responseArray, $modelCallBack);
     }
 
+    protected function post()
+    {
+        return null;
+    }
+
+    protected function delete()
+    {
+        return null;
+    }
+
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     private function sendRequest($path, $method, ?callable $modelCallBack = null)
     {
@@ -55,7 +77,7 @@ class AbstractHollywoodApi
             // TODO Throw model not found error
         }
 
-        $results = $serializer->deserialize(json_encode($responseArray['results']), $model.'[]', 'json');
+        $results = $serializer->deserialize(json_encode($responseArray['results']), $model . '[]', 'json');
         $paginatedResponse = new PaginatedResponse();
         $paginatedResponse->setResults($results);
 
@@ -72,6 +94,6 @@ class AbstractHollywoodApi
             // TODO Throw model not found error
         }
 
-        return $serializer->deserialize(json_encode($responseArray), $model ?? $this->model, 'json');
+        return $serializer->deserialize(json_encode($responseArray), Movie::class, 'json');
     }
 }

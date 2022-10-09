@@ -2,57 +2,61 @@
 
 namespace TallmanCode\HollywoodBundle\Model;
 
-class Movie
+use TallmanCode\HollywoodBundle\Annotation\ModelClass;
+use TallmanCode\HollywoodBundle\Common\ArrayCollection;
+
+class Movie implements HollywoodModelInterface
 {
-    /**
-     * @var bool
-     */
-    private bool $adult;
-
-    /**
-     * @var string
-     */
-    private string $backdropPath;
-
     /**
      * @var int
      */
     private int $id;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $title;
+    private ?string $imdbId;
+
 
     /**
-     * @var string
+     * @var bool
      */
-    private string $originalLanguage;
+    private bool $adult;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $originalTitle;
+    private ?string $backdropPath;
 
     /**
-     * @var string
+     * @var int
      */
-    private string $overview;
+    private int $budget;
 
     /**
-     * @var string
+     * @var Genre[]
      */
-    private string $posterPath;
+    private array $genres;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $mediaType;
+    private ?string $homepage;
 
     /**
-     * @var array
+     * @var string|null
      */
-    private array $genreIds;
+    private ?string $originalLanguage;
+
+    /**
+     * @var string|null
+     */
+    private ?string $originalTitle;
+
+    /**
+     * @var string|null
+     */
+    private ?string $overview;
 
     /**
      * @var float
@@ -60,14 +64,54 @@ class Movie
     private float $popularity;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $releaseDate;
+    private ?string $posterPath;
 
     /**
-     * @var bool
+     * @var ProductionCompany[]
      */
-    private bool $video;
+    private array $productionCompanies;
+
+    /**
+     * @var ProductionCountry[]
+     */
+    private array $productionCountries;
+
+    /**
+     * @var \DateTimeInterface
+     */
+    private \DateTimeInterface $releaseDate;
+
+    /**
+     * @var int
+     */
+    private int $revenue;
+
+    /**
+     * @var int
+     */
+    private int $runtTime;
+
+    /**
+     * @var SpokenLanguage[]
+     */
+    private array $spokenLanguages;
+
+    /**
+     * @var string|null
+     */
+    private ?string $status;
+
+    /**
+     * @var string|null
+     */
+    private ?string $tagline;
+
+    /**
+     * @var string|null
+     */
+    private ?string $title;
 
     /**
      * @var float
@@ -80,36 +124,14 @@ class Movie
     private int $voteCount;
 
     /**
-     * @return bool
+     * @var Images
      */
-    public function isAdult(): bool
-    {
-        return $this->adult;
-    }
+    private Images $images;
 
     /**
-     * @param bool $adult
+     * @var Videos
      */
-    public function setAdult(bool $adult): void
-    {
-        $this->adult = $adult;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBackdropPath(): string
-    {
-        return $this->backdropPath;
-    }
-
-    /**
-     * @param string $backdropPath
-     */
-    public function setBackdropPath(string $backdropPath): void
-    {
-        $this->backdropPath = $backdropPath;
-    }
+    private Videos $videos;
 
     /**
      * @return int
@@ -128,115 +150,147 @@ class Movie
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getImdbId(): ?string
     {
-        return $this->title;
+        return $this->imdbId;
     }
 
     /**
-     * @param string $title
+     * @param string|null $imdbId
      */
-    public function setTitle(string $title): void
+    public function setImdbId(?string $imdbId): void
     {
-        $this->title = $title;
+        $this->imdbId = $imdbId;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getOriginalLanguage(): string
+    public function isAdult(): bool
+    {
+        return $this->adult;
+    }
+
+    /**
+     * @param bool $adult
+     */
+    public function setAdult(bool $adult): void
+    {
+        $this->adult = $adult;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBackdropPath(): ?string
+    {
+        return $this->backdropPath;
+    }
+
+    /**
+     * @param string|null $backdropPath
+     */
+    public function setBackdropPath(?string $backdropPath): void
+    {
+        $this->backdropPath = $backdropPath;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBudget(): int
+    {
+        return $this->budget;
+    }
+
+    /**
+     * @param int $budget
+     */
+    public function setBudget(int $budget): void
+    {
+        $this->budget = $budget;
+    }
+
+    /**
+     * @return Genre[]
+     */
+    public function getGenres(): array
+    {
+        return $this->genres;
+    }
+
+    /**
+     * @param Genre[] $genres
+     */
+    public function setGenres(array $genres): void
+    {
+        $this->genres = $genres;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHomepage(): ?string
+    {
+        return $this->homepage;
+    }
+
+    /**
+     * @param string|null $homepage
+     */
+    public function setHomepage(?string $homepage): void
+    {
+        $this->homepage = $homepage;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOriginalLanguage(): ?string
     {
         return $this->originalLanguage;
     }
 
     /**
-     * @param string $originalLanguage
+     * @param string|null $originalLanguage
      */
-    public function setOriginalLanguage(string $originalLanguage): void
+    public function setOriginalLanguage(?string $originalLanguage): void
     {
         $this->originalLanguage = $originalLanguage;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOriginalTitle(): string
+    public function getOriginalTitle(): ?string
     {
         return $this->originalTitle;
     }
 
     /**
-     * @param string $originalTitle
+     * @param string|null $originalTitle
      */
-    public function setOriginalTitle(string $originalTitle): void
+    public function setOriginalTitle(?string $originalTitle): void
     {
         $this->originalTitle = $originalTitle;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getOverview(): string
+    public function getOverview(): ?string
     {
         return $this->overview;
     }
 
     /**
-     * @param string $overview
+     * @param string|null $overview
      */
-    public function setOverview(string $overview): void
+    public function setOverview(?string $overview): void
     {
         $this->overview = $overview;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPosterPath(): string
-    {
-        return $this->posterPath;
-    }
-
-    /**
-     * @param string $posterPath
-     */
-    public function setPosterPath(string $posterPath): void
-    {
-        $this->posterPath = $posterPath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaType(): string
-    {
-        return $this->mediaType;
-    }
-
-    /**
-     * @param string $mediaType
-     */
-    public function setMediaType(string $mediaType): void
-    {
-        $this->mediaType = $mediaType;
-    }
-
-    /**
-     * @return array
-     */
-    public function getGenreIds(): array
-    {
-        return $this->genreIds;
-    }
-
-    /**
-     * @param array $genreIds
-     */
-    public function setGenreIds(array $genreIds): void
-    {
-        $this->genreIds = $genreIds;
     }
 
     /**
@@ -256,35 +310,148 @@ class Movie
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getReleaseDate(): string
+    public function getPosterPath(): ?string
     {
-        return $this->releaseDate;
+        return $this->posterPath;
     }
 
     /**
-     * @param string $releaseDate
+     * @param string|null $posterPath
      */
-    public function setReleaseDate(string $releaseDate): void
+    public function setPosterPath(?string $posterPath): void
     {
-        $this->releaseDate = $releaseDate;
+        $this->posterPath = $posterPath;
     }
 
     /**
-     * @return bool
+     * @return ProductionCompany[]
      */
-    public function isVideo(): bool
+    public function getProductionCompanies(): array
     {
-        return $this->video;
+        return $this->productionCompanies;
     }
 
     /**
-     * @param bool $video
+     * @param ProductionCompany[] $productionCompanies
      */
-    public function setVideo(bool $video): void
+    public function setProductionCompanies(array $productionCompanies): void
     {
-        $this->video = $video;
+        $this->productionCompanies = $productionCompanies;
+    }
+
+    /**
+     * @return ProductionCountry[]
+     */
+    public function getProductionCountries(): array
+    {
+        return $this->productionCountries;
+    }
+
+    /**
+     * @param ProductionCountry[] $productionCountries
+     */
+    public function setProductionCountries(array $productionCountries): void
+    {
+        $this->productionCountries = $productionCountries;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getRevenue(): int
+    {
+        return $this->revenue;
+    }
+
+    /**
+     * @param int $revenue
+     */
+    public function setRevenue(int $revenue): void
+    {
+        $this->revenue = $revenue;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRuntTime(): int
+    {
+        return $this->runtTime;
+    }
+
+    /**
+     * @param int $runtTime
+     */
+    public function setRuntTime(int $runtTime): void
+    {
+        $this->runtTime = $runtTime;
+    }
+
+    /**
+     * @return SpokenLanguage[]
+     */
+    public function getSpokenLanguages(): array
+    {
+        return $this->spokenLanguages;
+    }
+
+    /**
+     * @param SpokenLanguage[] $spokenLanguages
+     */
+    public function setSpokenLanguages(array $spokenLanguages): void
+    {
+        $this->spokenLanguages = $spokenLanguages;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string|null $status
+     */
+    public function setStatus(?string $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTagline(): ?string
+    {
+        return $this->tagline;
+    }
+
+    /**
+     * @param string|null $tagline
+     */
+    public function setTagline(?string $tagline): void
+    {
+        $this->tagline = $tagline;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string|null $title
+     */
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
     }
 
     /**
@@ -317,5 +484,53 @@ class Movie
     public function setVoteCount(int $voteCount): void
     {
         $this->voteCount = $voteCount;
+    }
+
+    /**
+     * @return Images
+     */
+    public function getImages(): Images
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param Images $images
+     */
+    public function setImages(Images $images): void
+    {
+        $this->images = $images;
+    }
+
+    /**
+     * @return Videos
+     */
+    public function getVideos(): Videos
+    {
+        return $this->videos;
+    }
+
+    /**
+     * @param Videos $videos
+     */
+    public function setVideos(Videos $videos): void
+    {
+        $this->videos = $videos;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getReleaseDate(): \DateTimeInterface
+    {
+        return $this->releaseDate;
+    }
+
+    /**
+     * @param \DateTimeInterface $releaseDate
+     */
+    public function setReleaseDate(\DateTimeInterface $releaseDate): void
+    {
+        $this->releaseDate = $releaseDate;
     }
 }
