@@ -1,6 +1,6 @@
 <?php
 
-namespace TallmanCode\DevaliciousBundle\Tests\Api\Movie;
+namespace TallmanCode\DevaliciousBundle\Tests\Api\Television;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -19,7 +19,7 @@ class GetDetailsTest extends WebTestCase
 {
     use ResponseTestTrait;
 
-    public function testGeDetails()
+    public function testGetDetails()
     {
         $tvId = TvResponse::RESPONSE['id'];
         $hollywoodManager = $this->setupManager(

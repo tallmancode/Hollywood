@@ -113,12 +113,12 @@ class Television extends AbstractHollywoodApi
 
     public function getAiringToday()
     {
-        return $this->get('tv/airing_today');
+        return $this->get('tv/airing_today', Tv::class);
     }
 
     public function getOnTheAir()
     {
-        return $this->get('tv/on_the_air');
+        return $this->get('tv/on_the_air', Tv::class);
     }
 
     public function getPopular()
