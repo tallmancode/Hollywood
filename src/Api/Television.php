@@ -3,131 +3,37 @@
 namespace TallmanCode\HollywoodBundle\Api;
 
 use TallmanCode\HollywoodBundle\Model\Tv;
+use TallmanCode\HollywoodBundle\Response\PaginatedResponse;
 
 class Television extends AbstractHollywoodApi
 {
-    public function getDetails($tvId)
+    public function getDetails($tvId): Tv
     {
-        return $this->get('tv/'.$tvId, Tv::class);
+        return $this->get('tv/' . $tvId, Tv::class);
     }
 
-    public function getAccountStates($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/account_states');
-    }
-
-    public function getAggregateCredits($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/aggregate_credits');
-    }
-
-    public function getAlternativeTitles($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/alternative_titles');
-    }
-
-    public function getChanges($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/changes');
-    }
-
-    public function getContentRatings($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/content_ratings');
-    }
-
-    public function getCredits($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/credits');
-    }
-
-    public function getEpisodeGroups($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/episode_groups');
-    }
-
-    public function getExternalIds($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/external_ids');
-    }
-
-    public function getImages($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/images');
-    }
-
-    public function getKeywords($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/keywords');
-    }
-
-    public function getRecommendations($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/recommendations');
-    }
-
-    public function getReviews($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/reviews');
-    }
-
-    public function getScreenedTheatrically($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/screened_theatrically');
-    }
-
-    public function getSimilar($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/similar');
-    }
-
-    public function getTranslations($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/translations');
-    }
-
-    public function getVideos($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/videos');
-    }
-
-    public function getWatchProviders($tvId)
-    {
-        return $this->get('tv/'.$tvId.'/watch/providers');
-    }
-
-    public function postRating($tvId)
-    {
-        return $this->post('tv/'.$tvId.'/rating');
-    }
-
-    public function deleteRating($tvId)
-    {
-        return $this->delete('tv/'.$tvId.'/rating');
-    }
-
-    public function getLatest()
+    public function getLatest(): Tv
     {
         return $this->get('tv/latest', Tv::class);
     }
 
-    public function getAiringToday()
+    public function getAiringToday($page = 1): PaginatedResponse
     {
-        return $this->get('tv/airing_today', Tv::class);
+        return $this->get('tv/airing_today?page=' . $page, Tv::class);
     }
 
-    public function getOnTheAir()
+    public function getOnTheAir($page = 1): PaginatedResponse
     {
-        return $this->get('tv/on_the_air', Tv::class);
+        return $this->get('tv/on_the_air?page=' . $page, Tv::class);
     }
 
-    public function getPopular()
+    public function getPopular($page = 1): PaginatedResponse
     {
-        return $this->get('tv/popular', Tv::class);
+        return $this->get('tv/popular?page=' . $page, Tv::class);
     }
 
-    public function getTopRated()
+    public function getTopRated($page = 1): PaginatedResponse
     {
-        return $this->get('tv/top_rated', Tv::class);
+        return $this->get('tv/top_rated?page=' . $page, Tv::class);
     }
 }
