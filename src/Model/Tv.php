@@ -67,9 +67,9 @@ class Tv
     private string $name;
 
     /**
-     * @var string|null
+     * @var Episode|null
      */
-    private ?array $nextEpisodeToAir;
+    private ?Episode $nextEpisodeToAir;
 
     /**
      * @var Network[]
@@ -365,17 +365,17 @@ class Tv
     }
 
     /**
-     * @return array|null
+     * @return Episode|null
      */
-    public function getNextEpisodeToAir(): ?array
+    public function getNextEpisodeToAir(): ?Episode
     {
         return $this->nextEpisodeToAir;
     }
 
     /**
-     * @param array|null $nextEpisodeToAir
+     * @param Episode|null $nextEpisodeToAir
      */
-    public function setNextEpisodeToAir(?array $nextEpisodeToAir): void
+    public function setNextEpisodeToAir(?Episode $nextEpisodeToAir): void
     {
         $this->nextEpisodeToAir = $nextEpisodeToAir;
     }
