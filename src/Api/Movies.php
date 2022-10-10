@@ -3,10 +3,11 @@
 namespace TallmanCode\HollywoodBundle\Api;
 
 use TallmanCode\HollywoodBundle\Model\Movie;
+use TallmanCode\HollywoodBundle\Response\PaginatedResponse;
 
 class Movies extends AbstractHollywoodApi
 {
-    public function getDetails($movieId)
+    public function getDetails($movieId): Movie
     {
         return $this->get('movie/'.$movieId, Movie::class);
     }
@@ -96,7 +97,7 @@ class Movies extends AbstractHollywoodApi
         return $this->delete('movie/'.$movieId.'/rating');
     }
 
-    public function getLatest()
+    public function getLatest() :Movie
     {
         return $this->get('movie/latest', Movie::class);
     }
@@ -106,14 +107,14 @@ class Movies extends AbstractHollywoodApi
         return $this->get('movie/now_playing', Movie::class);
     }
 
-    public function getPopular()
+    public function getPopular($page = 1): PaginatedResponse
     {
-        return $this->get('movie/popular', Movie::class);
+        return $this->get('movie/popular?page='.$page, Movie::class);
     }
 
-    public function getTopRated()
+    public function getTopRated($page = 1): PaginatedResponse
     {
-        return $this->get('movie/top_rated', Movie::class);
+        return $this->get('movie/top_rated?page='.$page, Movie::class);
     }
 
     public function getUpcoming()

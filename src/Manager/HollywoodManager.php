@@ -4,6 +4,7 @@ namespace TallmanCode\HollywoodBundle\Manager;
 
 use TallmanCode\HollywoodBundle\Api\Movies;
 use TallmanCode\HollywoodBundle\Api\Television;
+use TallmanCode\HollywoodBundle\Api\Trending;
 use TallmanCode\HollywoodBundle\Client\HollywoodClientInterface;
 use TallmanCode\HollywoodBundle\Model\Movie;
 use TallmanCode\HollywoodBundle\Model\Tv;
@@ -30,5 +31,10 @@ class HollywoodManager implements HollywoodManagerInterface
     public function television(): Television
     {
         return new Television($this);
+    }
+
+    public function trending(): Trending
+    {
+        return new Trending($this);
     }
 }
