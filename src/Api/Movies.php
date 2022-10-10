@@ -2,11 +2,13 @@
 
 namespace TallmanCode\HollywoodBundle\Api;
 
+use TallmanCode\HollywoodBundle\Model\Movie;
+
 class Movies extends AbstractHollywoodApi
 {
     public function getDetails($movieId)
     {
-        return $this->get('movie/'.$movieId);
+        return $this->get('movie/'.$movieId, Movie::class);
     }
 
     public function getAccountStates($movieId)
@@ -96,26 +98,26 @@ class Movies extends AbstractHollywoodApi
 
     public function getLatest()
     {
-        return $this->get('movie/latest');
+        return $this->get('movie/latest', Movie::class);
     }
 
     public function getNowPlaying()
     {
-        return $this->get('movie/now_playing');
+        return $this->get('movie/now_playing', Movie::class);
     }
 
     public function getPopular()
     {
-        return $this->get('movie/popular');
+        return $this->get('movie/popular', Movie::class);
     }
 
     public function getTopRated()
     {
-        return $this->get('movie/top_rated');
+        return $this->get('movie/top_rated', Movie::class);
     }
 
     public function getUpcoming()
     {
-        return $this->get('movie/upcoming');
+        return $this->get('movie/upcoming', Movie::class);
     }
 }

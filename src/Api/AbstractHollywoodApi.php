@@ -26,13 +26,12 @@ class AbstractHollywoodApi
 
     protected ?string $model;
 
-    public function __construct(HollywoodManagerInterface $manager, ?string $model = null)
+    public function __construct(HollywoodManagerInterface $manager)
     {
         $this->manager = $manager;
-        $this->model = $model;
     }
 
-    protected function get(string $path, ?callable $modelCallBack = null)
+    protected function get(string $path, ?string $model = null, ?callable $modelCallBack = null)
     {
         $response = $this->sendRequest($path, 'GET', $modelCallBack);
         $encoder = [new JsonEncoder()];
@@ -42,10 +41,10 @@ class AbstractHollywoodApi
         $responseArray = $response->toArray();
 
         if (isset($responseArray['page'])) {
-            return $this->paginatedResponse($serializer, $responseArray, $response, $modelCallBack);
+            return $this->paginatedResponse($serializer, $responseArray, $response, $model, $modelCallBack);
         }
 
-        return $this->modelResponse($serializer, $responseArray, $modelCallBack);
+        return $this->modelResponse($serializer, $responseArray, $model, $modelCallBack);
     }
 
     protected function post()
@@ -61,21 +60,20 @@ class AbstractHollywoodApi
     /**
      * @throws TransportExceptionInterface
      */
-    private function sendRequest($path, $method, ?callable $modelCallBack = null)
+    private function sendRequest($path, $method)
     {
         $client = $this->manager->getClient();
         return $client->send($path, $method);
     }
 
-    protected function paginatedResponse($serializer, $responseArray, $response, ?callable $modelCallBack = null)
+    protected function paginatedResponse($serializer, $responseArray, $response, ?string $model = null, ?callable $modelCallBack = null)
     {
-        if (null !== $modelCallBack) {
-            $model = $modelCallBack($responseArray, $response);
-        } elseif (null !== $this->model) {
-            $model = $this->model;
-        } else {
-            // TODO Throw model not found error
+        if(!$model){
+            if (null !== $modelCallBack) {
+                $model = $modelCallBack($responseArray, $response);
+            }
         }
+
 
         $results = $serializer->deserialize(json_encode($responseArray['results']), $model . '[]', 'json');
         $paginatedResponse = new PaginatedResponse();
@@ -84,16 +82,14 @@ class AbstractHollywoodApi
         return $serializer->deserialize($response->getContent(), PaginatedResponse::class, 'json', [AbstractNormalizer::OBJECT_TO_POPULATE => $paginatedResponse, AbstractNormalizer::IGNORED_ATTRIBUTES => ['results']]);
     }
 
-    protected function modelResponse($serializer, $responseArray, ?callable $modelCallBack = null)
+    protected function modelResponse($serializer, $responseArray, ?string $model = null, ?callable $modelCallBack = null)
     {
-        if (null !== $modelCallBack) {
-            $model = $modelCallBack($responseArray, null);
-        } elseif (null !== $this->model) {
-            $model = $this->model;
-        } else {
-            // TODO Throw model not found error
+        if(!$model){
+            if (null !== $modelCallBack) {
+                $model = $modelCallBack($responseArray, null);
+            }
         }
 
-        return $serializer->deserialize(json_encode($responseArray), Movie::class, 'json');
+        return $serializer->deserialize(json_encode($responseArray), $model, 'json');
     }
 }

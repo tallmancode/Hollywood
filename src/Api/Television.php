@@ -2,11 +2,13 @@
 
 namespace TallmanCode\HollywoodBundle\Api;
 
-class Tv extends AbstractHollywoodApi
+use TallmanCode\HollywoodBundle\Model\Tv;
+
+class Television extends AbstractHollywoodApi
 {
     public function getDetails($tvId)
     {
-        return $this->get('tv/'.$tvId);
+        return $this->get('tv/'.$tvId, Tv::class);
     }
 
     public function getAccountStates($tvId)
@@ -106,7 +108,7 @@ class Tv extends AbstractHollywoodApi
 
     public function getLatest()
     {
-        return $this->get('tv/latest');
+        return $this->get('tv/latest', Tv::class);
     }
 
     public function getAiringToday()
@@ -121,11 +123,11 @@ class Tv extends AbstractHollywoodApi
 
     public function getPopular()
     {
-        return $this->get('tv/popular');
+        return $this->get('tv/popular', Tv::class);
     }
 
     public function getTopRated()
     {
-        return $this->get('tv/top_rated');
+        return $this->get('tv/top_rated', Tv::class);
     }
 }
