@@ -40,6 +40,11 @@ class Season
     private int $seasonNumber;
 
     /**
+     * @var Episode[]
+     */
+    private array $episodes;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -149,6 +154,22 @@ class Season
     public function setSeasonNumber(int $seasonNumber): void
     {
         $this->seasonNumber = $seasonNumber;
+    }
+
+    /**
+     * @return Episode[]
+     */
+    public function getEpisodes(): array
+    {
+        return $this->episodes;
+    }
+
+    /**
+     * @param Episode[] $episodes
+     */
+    public function setEpisodes(array $episodes): void
+    {
+        $this->episodes = $episodes;
     }
 
 
