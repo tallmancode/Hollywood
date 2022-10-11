@@ -90,6 +90,6 @@ class AbstractHollywoodApi
             }
         }
 
-        return $serializer->deserialize(json_encode($responseArray), $model, 'json');
+        return $serializer->deserialize(json_encode($responseArray), $model, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['_id']]);
     }
 }
