@@ -2,6 +2,8 @@
 
 namespace TallmanCode\HollywoodBundle\Model;
 
+use DateTimeInterface;
+
 class Season
 {
     /**
@@ -10,9 +12,9 @@ class Season
     private int $id;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface|null
      */
-    private \DateTimeInterface $airDate;
+    private ?DateTimeInterface $airDate;
 
     /**
      * @var int
@@ -61,17 +63,17 @@ class Season
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface|null
      */
-    public function getAirDate(): \DateTimeInterface
+    public function getAirDate(): ?DateTimeInterface
     {
         return $this->airDate;
     }
 
     /**
-     * @param \DateTimeInterface $airDate
+     * @param DateTimeInterface|null $airDate
      */
-    public function setAirDate(\DateTimeInterface $airDate): void
+    public function setAirDate(?DateTimeInterface $airDate): void
     {
         $this->airDate = $airDate;
     }
