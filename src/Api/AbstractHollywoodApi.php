@@ -74,7 +74,6 @@ class AbstractHollywoodApi
             }
         }
 
-
         $results = $serializer->deserialize(json_encode($responseArray['results']), $model . '[]', 'json');
         $paginatedResponse = new PaginatedResponse();
         $paginatedResponse->setResults($results);
